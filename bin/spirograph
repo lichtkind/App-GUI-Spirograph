@@ -1,0 +1,11 @@
+#!/usr/bin/perl -w
+use v5.12;
+use lib 'lib', '../lib';
+use App::GUI::Spirograph;
+
+App::GUI::Spirograph->new->MainLoop( );
+
+exit 0;
+
+__END__
+
