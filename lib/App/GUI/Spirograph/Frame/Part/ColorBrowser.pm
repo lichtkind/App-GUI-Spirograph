@@ -2,10 +2,10 @@ use v5.12;
 use warnings;
 use Wx;
 
-package App::GUI::Dynagraph::Frame::Part::ColorBrowser;
+package App::GUI::Spirograph::Frame::Part::ColorBrowser;
 use base qw/Wx::Panel/;
-use App::GUI::Dynagraph::SliderCombo;
-use App::GUI::Dynagraph::ColorDisplay;
+use App::GUI::Spirograph::SliderCombo;
+use App::GUI::Spirograph::ColorDisplay;
 use Graphics::Toolkit::Color;
 
 sub new {
@@ -16,13 +16,13 @@ sub new {
 
     $self->{'init'} = $init;
     
-    $self->{'red'}   =  App::GUI::Dynagraph::SliderCombo->new( $self, 100, ' R  ', "red part of $type color",    0, 255,  0);
-    $self->{'green'} =  App::GUI::Dynagraph::SliderCombo->new( $self, 100, ' G  ', "green part of $type color",  0, 255,  0);
-    $self->{'blue'}  =  App::GUI::Dynagraph::SliderCombo->new( $self, 100, ' B  ', "blue part of $type color",   0, 255,  0);
-    $self->{'hue'}   =  App::GUI::Dynagraph::SliderCombo->new( $self, 100, ' H  ', "hue of $type color",         0, 359,  0);
-    $self->{'sat'}   =  App::GUI::Dynagraph::SliderCombo->new( $self, 100, ' S  ', "saturation of $type color",  0, 100,  0);
-    $self->{'light'} =  App::GUI::Dynagraph::SliderCombo->new( $self, 100, ' L  ', "lightness of $type color",   0, 100,  0);
-    $self->{'display'}= App::GUI::Dynagraph::ColorDisplay->new( $self, 25, 10, $init);
+    $self->{'red'}   =  App::GUI::Spirograph::SliderCombo->new( $self, 100, ' R  ', "red part of $type color",    0, 255,  0);
+    $self->{'green'} =  App::GUI::Spirograph::SliderCombo->new( $self, 100, ' G  ', "green part of $type color",  0, 255,  0);
+    $self->{'blue'}  =  App::GUI::Spirograph::SliderCombo->new( $self, 100, ' B  ', "blue part of $type color",   0, 255,  0);
+    $self->{'hue'}   =  App::GUI::Spirograph::SliderCombo->new( $self, 100, ' H  ', "hue of $type color",         0, 359,  0);
+    $self->{'sat'}   =  App::GUI::Spirograph::SliderCombo->new( $self, 100, ' S  ', "saturation of $type color",  0, 100,  0);
+    $self->{'light'} =  App::GUI::Spirograph::SliderCombo->new( $self, 100, ' L  ', "lightness of $type color",   0, 100,  0);
+    $self->{'display'}= App::GUI::Spirograph::ColorDisplay->new( $self, 25, 10, $init);
     $self->{'display'}->SetToolTip("$type color monitor");
     
     my $rgb2hsl = sub {

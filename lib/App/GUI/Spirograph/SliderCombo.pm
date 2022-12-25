@@ -2,7 +2,7 @@ use v5.12;
 use warnings;
 use Wx;
 
-package App::GUI::Dynagraph::SliderCombo;
+package App::GUI::Spirograph::SliderCombo;
 use base qw/Wx::Panel/;
 
 sub new {

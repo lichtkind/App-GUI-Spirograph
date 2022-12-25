@@ -3,9 +3,9 @@ use warnings;
 use File::HomeDir;
 use File::Spec;
 
-package App::GUI::Dynagraph::Config;
+package App::GUI::Spirograph::Config;
 
-my $file = '.Dynagraph';
+my $file = '.Spirograph';
 my $dir = '';
 my $default = {
     file_base_dir => '~',

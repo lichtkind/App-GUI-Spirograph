@@ -2,9 +2,9 @@ use v5.12;
 use warnings;
 use Wx;
 
-package App::GUI::Dynagraph::Frame::Part::ColorPicker;
+package App::GUI::Spirograph::Frame::Part::ColorPicker;
 use base qw/Wx::Panel/;
-use App::GUI::Dynagraph::ColorDisplay;
+use App::GUI::Spirograph::ColorDisplay;
 use Graphics::Toolkit::Color;
 
 sub new {
@@ -30,7 +30,7 @@ sub new {
     $self->{'load'} = Wx::Button->new( $self, -1, 'Load',    [-1,-1], [$btnw, $btnh] );
     $self->{'del'}  = Wx::Button->new( $self, -1, 'Del',     [-1,-1], [$btnw, $btnh] );
     $self->{'save'} = Wx::Button->new( $self, -1, 'Save',    [-1,-1], [$btnw, $btnh] );
-    $self->{'display'} = App::GUI::Dynagraph::ColorDisplay->new( $self, 25, 10, $self->current_color );
+    $self->{'display'} = App::GUI::Spirograph::ColorDisplay->new( $self, 25, 10, $self->current_color );
     
     $self->{'label'}->SetToolTip("access to internal color storage for $self->{'target'} color");
     $self->{'select'}->SetToolTip("select color in list directly");

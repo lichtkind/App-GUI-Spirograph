@@ -2,7 +2,7 @@ use v5.12;
 use warnings;
 use Wx;
 
-package App::GUI::Dynagraph::Dialog::About;
+package App::GUI::Spirograph::Dialog::About;
 use base qw/Wx::Dialog/;
 
 sub new {
@@ -10,12 +10,12 @@ sub new {
     my $self = $class->SUPER::new( $parent, -1, 'About Wx::GUI::Harmonograph' );
 
     my @lblb_pro = ( [-1,-1], [-1,-1], &Wx::wxALIGN_CENTRE_HORIZONTAL );
-    my $version = Wx::StaticText->new( $self, -1, $App::GUI::Dynagraph::NAME . '    version '.$App::GUI::Dynagraph::VERSION , @lblb_pro);
+    my $version = Wx::StaticText->new( $self, -1, $App::GUI::Spirograph::NAME . '    version '.$App::GUI::Spirograph::VERSION , @lblb_pro);
     my $author  = Wx::StaticText->new( $self, -1, ' by Herbert Breunung ', @lblb_pro);
     my $license = Wx::StaticText->new( $self, -1, ' licensed under the GPL 3 ', @lblb_pro);
     my $libs    = Wx::StaticText->new( $self, -1, 'using Perl '.$^V.'    and    WxPerl '. $Wx::VERSION . '  ( '. &Wx::wxVERSION_STRING. ' )', @lblb_pro);
     my $url_lbl = Wx::StaticText->new( $self, -1, 'latest version on CPAN:   ', @lblb_pro);
-    my $url     = Wx::HyperlinkCtrl->new( $self, -1, 'metacpan.org/dist/App::GUI::Harmonograph', 'https://metacpan.org/dist/App::GUI::Harmonograph' );
+    my $url     = Wx::HyperlinkCtrl->new( $self, -1, 'metacpan.org/dist/App::GUI::Spirograph', 'https://metacpan.org/dist/App::GUI::Spirograph' );
 
     $self->{'close'} = Wx::Button->new( $self, -1, '&Close', [10,10], [-1, -1] );
     Wx::Event::EVT_BUTTON( $self, $self->{'close'},  sub { $self->EndModal(1) });

@@ -2,9 +2,9 @@ use v5.12;
 use warnings;
 use Wx;
 
-package App::GUI::Dynagraph::Frame::Part::Pendulum;
+package App::GUI::Spirograph::Frame::Part::Pendulum;
 use base qw/Wx::Panel/;
-use App::GUI::Dynagraph::SliderCombo;
+use App::GUI::Spirograph::SliderCombo;
 
 sub new {
     my ( $class, $parent, $label, $help, $on, $max,  ) = @_;
@@ -21,9 +21,9 @@ sub new {
     
     my $lbl  = Wx::StaticText->new($self, -1, uc($label) );
 
-    $self->{'frequency'}  = App::GUI::Dynagraph::SliderCombo->new
+    $self->{'frequency'}  = App::GUI::Spirograph::SliderCombo->new
                         ( $self, 100, 'f', 'frequency of '.$help, 1, $max, 1 );
-    $self->{'freq_dez'} = App::GUI::Dynagraph::SliderCombo->new
+    $self->{'freq_dez'} = App::GUI::Spirograph::SliderCombo->new
                         ( $self, 100, 'f dec.', 'decimals of frequency at '.$help, 0, 1000, 0);
     $self->{'invert_freq'} = Wx::CheckBox->new( $self, -1, ' Inv.');
     $self->{'invert_freq'}->SetToolTip('invert (1/x) pendulum frequency');
@@ -33,11 +33,11 @@ sub new {
     $self->{'half_off'}->SetToolTip('pendulum starts with offset of half rotation');
     $self->{'quarter_off'} = Wx::CheckBox->new( $self, -1, ' 4');
     $self->{'quarter_off'}->SetToolTip('pendulum starts with offset of quater rotation');
-    $self->{'offset'} = App::GUI::Dynagraph::SliderCombo->new
+    $self->{'offset'} = App::GUI::Spirograph::SliderCombo->new
                             ($self, 110, 'Offset', 'additional offset pendulum starts with (0 - quater rotation)', 0, 100, 0);
                             
-    $self->{'radius'} = App::GUI::Dynagraph::SliderCombo->new( $self, 100, 'r', 'radius or amplitude of pendulum swing', 0, 150, 100);
-    $self->{'damp'} = App::GUI::Dynagraph::SliderCombo->new( $self, 100, 'Damp', 'damping factor (diminishes amplitude over time)', 0, 1000, 0);
+    $self->{'radius'} = App::GUI::Spirograph::SliderCombo->new( $self, 100, 'r', 'radius or amplitude of pendulum swing', 0, 150, 100);
+    $self->{'damp'} = App::GUI::Spirograph::SliderCombo->new( $self, 100, 'Damp', 'damping factor (diminishes amplitude over time)', 0, 1000, 0);
 
 
     Wx::Event::EVT_CHECKBOX( $self, $self->{'on'},          sub { $self->update_enable(); $self->{'callback'}->() });

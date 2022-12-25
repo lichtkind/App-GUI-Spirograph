@@ -2,7 +2,7 @@ use v5.12;
 use warnings;
 use Wx;
 
-package App::GUI::Dynagraph::Frame::Part::Board;
+package App::GUI::Spirograph::Frame::Part::Board;
 use base qw/Wx::Panel/;
 my $TAU = 6.283185307;
 

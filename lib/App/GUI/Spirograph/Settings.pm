@@ -5,7 +5,7 @@ use File::Spec;
 
 # parameter of a drawing
 
-package App::GUI::Dynagraph::Settings;
+package App::GUI::Spirograph::Settings;
 
 sub load {
     my ($file) = @_;

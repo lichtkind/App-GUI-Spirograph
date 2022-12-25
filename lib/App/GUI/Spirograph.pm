@@ -4,16 +4,16 @@ use Wx;
 use utf8;
 use FindBin;
 
-package App::GUI::Dynagraph;
+package App::GUI::Spirograph;
 our $NAME = __PACKAGE__;
 our $VERSION = '0.01';
 
 use base qw/Wx::App/;
-use App::GUI::Dynagraph::Frame;
+use App::GUI::Spirograph::Frame;
 
 sub OnInit {
     my $app   = shift;
-    my $frame = App::GUI::Dynagraph::Frame->new( undef, 'Dynagraph '.$VERSION);
+    my $frame = App::GUI::Spirograph::Frame->new( undef, 'Spirograph '.$VERSION);
     $frame->Show(1);
     $frame->CenterOnScreen();
     $app->SetTopWindow($frame);
@@ -31,7 +31,7 @@ __END__
 
 =head1 NAME
 
-App::GUI::Dynagraph - draw art by systems of dynamic equations
+App::GUI::Spirograph - draw complex lines from rotating pens
 
 =head1 SYNOPSIS 
 

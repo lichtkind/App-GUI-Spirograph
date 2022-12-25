@@ -2,7 +2,7 @@ use v5.12;
 use warnings;
 use Wx;
 
-package App::GUI::Dynagraph::ColorDisplay;
+package App::GUI::Spirograph::ColorDisplay;
 use base qw/Wx::Panel/;
 
 sub new {

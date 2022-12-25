@@ -6,20 +6,18 @@ use Wx::AUI;
 # modular conections
 # X Y sync ? , undo ?
 
-package App::GUI::Dynagraph::Frame;
+package App::GUI::Spirograph::Frame;
 use base qw/Wx::Frame/;
-use App::GUI::Dynagraph::Frame::Part::Pendulum;
-use App::GUI::Dynagraph::Frame::Part::ColorFlow;
-use App::GUI::Dynagraph::Frame::Part::ColorBrowser;
-use App::GUI::Dynagraph::Frame::Part::ColorPicker;
-use App::GUI::Dynagraph::Frame::Part::PenLine;
-use App::GUI::Dynagraph::Frame::Part::Board;
-use App::GUI::Dynagraph::Dialog::Function;
-use App::GUI::Dynagraph::Dialog::Interface;
-use App::GUI::Dynagraph::Dialog::About;
-use App::GUI::Dynagraph::ProgressBar;
-use App::GUI::Dynagraph::Settings;
-use App::GUI::Dynagraph::Config;
+use App::GUI::Spirograph::Frame::Part::Pendulum;
+use App::GUI::Spirograph::Frame::Part::ColorFlow;
+use App::GUI::Spirograph::Frame::Part::ColorBrowser;
+use App::GUI::Spirograph::Frame::Part::ColorPicker;
+use App::GUI::Spirograph::Frame::Part::PenLine;
+use App::GUI::Spirograph::Frame::Part::Board;
+use App::GUI::Spirograph::Dialog::About;
+use App::GUI::Spirograph::ProgressBar;
+use App::GUI::Spirograph::Settings;
+use App::GUI::Spirograph::Config;
 
 sub new {
     my ( $class, $parent, $title ) = @_;
@@ -28,7 +26,7 @@ sub new {
     $self->CreateStatusBar( 2 );
     $self->SetStatusWidths(2, 800, 100);
     $self->SetStatusText( "no file loaded", 1 );
-    $self->{'config'} = App::GUI::Dynagraph::Config->new();
+    $self->{'config'} = App::GUI::Spirograph::Config->new();
     Wx::ToolTip::Enable( $self->{'config'}->get_value('tips') );
     Wx::InitAllImageHandlers();
 
@@ -39,24 +37,22 @@ sub new {
     $self->{'tabs'}->AddPage( $self->{'tab'}{'pendulum'}, 'Simple Cells');
     $self->{'tabs'}->AddPage( $self->{'tab'}{'pen'},      'Pen Settings');
 
-    $self->{'pendulum'}{'x'}    = App::GUI::Dynagraph::Frame::Part::Pendulum->new( $self->{'tab'}{'pendulum'}, 'x','pendulum in x direction (left to right)', 1, 30);
+    $self->{'pendulum'}{'x'}    = App::GUI::Spirograph::Frame::Part::Pendulum->new( $self->{'tab'}{'pendulum'}, 'x','pendulum in x direction (left to right)', 1, 30);
     $self->{'pendulum'}{$_}->SetCallBack( sub { $self->sketch( ) } ) for qw/x/;
                                 
-    $self->{'color'}{'start'}   = App::GUI::Dynagraph::Frame::Part::ColorBrowser->new( $self->{'tab'}{'pen'}, 'start', { red => 20, green => 20, blue => 110 } );
-    $self->{'color'}{'end'}     = App::GUI::Dynagraph::Frame::Part::ColorBrowser->new( $self->{'tab'}{'pen'}, 'end',  { red => 110, green => 20, blue => 20 } );
+    $self->{'color'}{'start'}   = App::GUI::Spirograph::Frame::Part::ColorBrowser->new( $self->{'tab'}{'pen'}, 'start', { red => 20, green => 20, blue => 110 } );
+    $self->{'color'}{'end'}     = App::GUI::Spirograph::Frame::Part::ColorBrowser->new( $self->{'tab'}{'pen'}, 'end',  { red => 110, green => 20, blue => 20 } );
     
-    $self->{'color'}{'startio'} = App::GUI::Dynagraph::Frame::Part::ColorPicker->new( $self->{'tab'}{'pen'}, $self, 'Start Color IO', $self->{'config'}->get_value('color') , 162, 1);
-    $self->{'color'}{'endio'}   = App::GUI::Dynagraph::Frame::Part::ColorPicker->new( $self->{'tab'}{'pen'}, $self, 'End Color IO', $self->{'config'}->get_value('color') , 162, 7);
+    $self->{'color'}{'startio'} = App::GUI::Spirograph::Frame::Part::ColorPicker->new( $self->{'tab'}{'pen'}, $self, 'Start Color IO', $self->{'config'}->get_value('color') , 162, 1);
+    $self->{'color'}{'endio'}   = App::GUI::Spirograph::Frame::Part::ColorPicker->new( $self->{'tab'}{'pen'}, $self, 'End Color IO', $self->{'config'}->get_value('color') , 162, 7);
 
-    $self->{'color_flow'}       = App::GUI::Dynagraph::Frame::Part::ColorFlow->new( $self->{'tab'}{'pen'}, $self );
-    $self->{'line'}             = App::GUI::Dynagraph::Frame::Part::PenLine->new( $self->{'tab'}{'pen'} );
+    $self->{'color_flow'}       = App::GUI::Spirograph::Frame::Part::ColorFlow->new( $self->{'tab'}{'pen'}, $self );
+    $self->{'line'}             = App::GUI::Spirograph::Frame::Part::PenLine->new( $self->{'tab'}{'pen'} );
                                
-    $self->{'progress'}            = App::GUI::Dynagraph::ProgressBar->new( $self, 450, 5, { red => 20, green => 20, blue => 110 });
-    $self->{'board'}               = App::GUI::Dynagraph::Frame::Part::Board->new( $self , 600, 600 );
-    $self->{'dialog'}{'about'}     = App::GUI::Dynagraph::Dialog::About->new();
-    $self->{'dialog'}{'interface'} = App::GUI::Dynagraph::Dialog::Interface->new();
-    $self->{'dialog'}{'function'}  = App::GUI::Dynagraph::Dialog::Function->new();
-
+    $self->{'progress'}            = App::GUI::Spirograph::ProgressBar->new( $self, 450, 5, { red => 20, green => 20, blue => 110 });
+    $self->{'board'}               = App::GUI::Spirograph::Frame::Part::Board->new( $self , 600, 600 );
+    $self->{'dialog'}{'about'}     = App::GUI::Spirograph::Dialog::About->new();
+    
     my $btnw = 50; my $btnh     = 40;# button width and height
     #Wx::Event::EVT_BUTTON( $self, $self->{'btn'}{'exit'},  sub { $self->Close; } );
     $self->{'btn'}{'dir'}       = Wx::Button->new( $self, -1, 'Dir',   [-1,-1],[$btnw, $btnh] );
@@ -85,7 +81,7 @@ sub new {
     Wx::Event::EVT_BUTTON( $self, $self->{'btn'}{'dir'},  sub { $self->change_base_dir }) ;
     Wx::Event::EVT_BUTTON( $self, $self->{'btn'}{'write_next'},  sub {
         my $data = get_data( $self );
-        $self->inc_base_counter unless App::GUI::Dynagraph::Settings::are_equal( $self->{'last_file_settings'}, $data );
+        $self->inc_base_counter unless App::GUI::Spirograph::Settings::are_equal( $self->{'last_file_settings'}, $data );
         my $path = $self->base_path . '.ini';
         $self->write_settings_file( $path);
         $self->{'config'}->add_setting_file( $path );
@@ -93,7 +89,7 @@ sub new {
     });
     Wx::Event::EVT_BUTTON( $self, $self->{'btn'}{'save_next'},  sub {
         my $data = get_data( $self );
-        $self->inc_base_counter unless App::GUI::Dynagraph::Settings::are_equal( $self->{'last_file_settings'}, $data );
+        $self->inc_base_counter unless App::GUI::Spirograph::Settings::are_equal( $self->{'last_file_settings'}, $data );
         my $path = $self->base_path . '.' . $self->{'config'}->get_value('file_base_ending');
         $self->write_image( $path );
         $self->{'last_file_settings'} = $data;
@@ -118,7 +114,7 @@ sub new {
             } else { delete $all_color->{$name} }
         }
         $self->{'config'}->save();
-        $self->{'dialog'}{$_}->Destroy() for qw/interface function about/;
+        $self->{'dialog'}{$_}->Destroy() for qw/about/;
         $_[1]->Skip(1) 
     });
 
@@ -167,8 +163,6 @@ sub new {
 
     
     my $help_menu = Wx::Menu->new();
-    $help_menu->Append( 13100, "&Function\tAlt+F", "Dialog with information how an Dynagraph works" );
-    $help_menu->Append( 13200, "&Knobs\tAlt+K", "Dialog explaining the layout and function of knobs" );
     $help_menu->Append( 13300, "&About\tAlt+A", "Dialog with general information about the program" );
 
     my $menu_bar = Wx::MenuBar->new();
@@ -183,8 +177,6 @@ sub new {
     Wx::Event::EVT_MENU( $self, 11500, sub { $self->Close });
     Wx::Event::EVT_MENU( $self, 12300, sub { $self->draw });
     Wx::Event::EVT_MENU( $self, 12400, sub { $self->save_image_dialog });
-    Wx::Event::EVT_MENU( $self, 13100, sub { $self->{'dialog'}{'function'}->ShowModal });
-    Wx::Event::EVT_MENU( $self, 13200, sub { $self->{'dialog'}{'interface'}->ShowModal });
     Wx::Event::EVT_MENU( $self, 13300, sub { $self->{'dialog'}{'about'}->ShowModal });
 
     my $std_attr = &Wx::wxALIGN_LEFT|&Wx::wxGROW|&Wx::wxALIGN_CENTER_HORIZONTAL;
@@ -290,7 +282,7 @@ sub open_settings_dialog {
     my $ret = $self->open_setting_file ( $path );
     if (not ref $ret) { $self->SetStatusText( $ret, 0) }
     else { 
-        my $dir = App::GUI::Dynagraph::Settings::extract_dir( $path );
+        my $dir = App::GUI::Spirograph::Settings::extract_dir( $path );
         $self->{'config'}->set_value('save_dir', $dir);
         $self->SetStatusText( "loaded settings from ".$dialog->GetPath, 1);
     }
@@ -309,7 +301,7 @@ sub write_settings_dialog {
               Wx::MessageDialog->new( $self, "\n\nReally overwrite the settings file?", 'Confirmation Question',
                                       &Wx::wxYES_NO | &Wx::wxICON_QUESTION )->ShowModal() != &Wx::wxID_YES;
     $self->write_settings_file( $path );
-    my $dir = App::GUI::Dynagraph::Settings::extract_dir( $path );
+    my $dir = App::GUI::Spirograph::Settings::extract_dir( $path );
     $self->{'config'}->set_value('write_dir', $dir);
 }
 
@@ -329,7 +321,7 @@ sub save_image_dialog {
                                       &Wx::wxYES_NO | &Wx::wxICON_QUESTION )->ShowModal() != &Wx::wxID_YES;
     my $ret = $self->write_image( $path );
     if ($ret){ $self->SetStatusText( $ret, 0 ) }
-    else     { $self->{'config'}->set_value('save_dir', App::GUI::Dynagraph::Settings::extract_dir( $path )) }
+    else     { $self->{'config'}->set_value('save_dir', App::GUI::Spirograph::Settings::extract_dir( $path )) }
 }
 
 sub get_data {
@@ -382,7 +374,7 @@ sub update_base_name {
 sub inc_base_counter {
     my ($self) = @_;
     my $dir = $self->{'config'}->get_value('file_base_dir');
-    $dir = App::GUI::Dynagraph::Settings::expand_path( $dir );
+    $dir = App::GUI::Spirograph::Settings::expand_path( $dir );
     my $base = File::Spec->catfile( $dir, $self->{'config'}->get_value('file_base_name') );
     my $cc = $self->{'config'}->get_value('file_base_counter');
     while (1){
@@ -404,7 +396,7 @@ sub change_base_dir {
     my $dialog = Wx::DirDialog->new ( $self, "Select a directory to store a series of files", $self->{'config'}->get_value('file_base_dir'));
     return if $dialog->ShowModal == &Wx::wxID_CANCEL;
     my $new_dir = $dialog->GetPath;
-    $new_dir = App::GUI::Dynagraph::Settings::shrink_path( $new_dir ) . '/';
+    $new_dir = App::GUI::Spirograph::Settings::shrink_path( $new_dir ) . '/';
     $self->{'txt'}{'file_bdir'}->SetValue( $new_dir );
     $self->{'config'}->set_value('file_base_dir', $new_dir);
     $self->update_base_name();
@@ -413,7 +405,7 @@ sub change_base_dir {
 sub base_path {
     my ($self) = @_;
     my $dir = $self->{'config'}->get_value('file_base_dir');
-    $dir = App::GUI::Dynagraph::Settings::expand_path( $dir );
+    $dir = App::GUI::Spirograph::Settings::expand_path( $dir );
     File::Spec->catfile( $dir, $self->{'config'}->get_value('file_base_name') )
         .'_'.$self->{'config'}->get_value('file_base_counter');
     
@@ -421,11 +413,11 @@ sub base_path {
 
 sub open_setting_file {
     my ($self, $file ) = @_;
-    my $data = App::GUI::Dynagraph::Settings::load( $file );
+    my $data = App::GUI::Spirograph::Settings::load( $file );
     if (ref $data) {
         $self->set_data( $data );
         $self->draw;
-        my $dir = App::GUI::Dynagraph::Settings::extract_dir( $file );
+        my $dir = App::GUI::Spirograph::Settings::extract_dir( $file );
         $self->{'config'}->set_value('open_dir', $dir);
         $self->SetStatusText( "loaded settings from ".$file, 1) ;
         $self->{'config'}->add_setting_file( $file );
@@ -438,7 +430,7 @@ sub open_setting_file {
 
 sub write_settings_file {
     my ($self, $file)  = @_;
-    my $ret = App::GUI::Dynagraph::Settings::write( $file, $self->get_data );
+    my $ret = App::GUI::Spirograph::Settings::write( $file, $self->get_data );
     if ($ret){ $self->SetStatusText( $ret, 0 ) }
     else     { 
         $self->{'config'}->add_setting_file( $file );
@@ -467,7 +459,7 @@ sub update_recent_settings_menu {
 sub write_image {
     my ($self, $file)  = @_;
     $self->{'board'}->save_file( $file );
-    $file = App::GUI::Dynagraph::Settings::shrink_path( $file );
+    $file = App::GUI::Spirograph::Settings::shrink_path( $file );
     $self->SetStatusText( "saved image under: $file", 0 );
 }
 

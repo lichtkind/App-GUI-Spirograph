@@ -2,7 +2,7 @@ use v5.12;
 use warnings;
 use Wx;
 
-package App::GUI::Dynagraph::ProgressBar;
+package App::GUI::Spirograph::ProgressBar;
 use base qw/Wx::Panel/;
 
 sub new {
