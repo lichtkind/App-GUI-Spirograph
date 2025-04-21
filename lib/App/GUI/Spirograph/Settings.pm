@@ -1,11 +1,11 @@
+
+# read and writ .ini files with settings of a drawing
+
+package App::GUI::Spirograph::Settings;
 use v5.12;
 use warnings;
 use FindBin;
 use File::Spec;
-
-# parameter of a drawing
-
-package App::GUI::Spirograph::Settings;
 
 sub load {
     my ($file) = @_;

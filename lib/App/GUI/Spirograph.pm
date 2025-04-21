@@ -31,9 +31,9 @@ __END__
 
 =head1 NAME
 
-App::GUI::Spirograph - draw complex lines from rotating pens
+App::GUI::Spirograph - drawing zycloids with virtual gears
 
-=head1 SYNOPSIS 
+=head1 SYNOPSIS
 
 =over 4
 
@@ -47,8 +47,8 @@ read this POD or check dialogs from help menu
 
 =item 3.
 
-move knobs and observe how preview sketch reacts til you got 
-an interesting configuration 
+move knobs and observe how preview sketch reacts til you got
+an interesting configuration
 
 =item 4.
 
@@ -88,7 +88,7 @@ creating together spiraling pictures :
 </p>
 
 
-This is a cybernetic recreation of an Prof. Blackburns invention with 
+This is a cybernetic recreation of an Prof. Blackburns invention with
 several enhancements:
 
 =over 4
@@ -118,7 +118,7 @@ changeable dot density and dot size
 
 =head1 Mechanics
 
-The classic Harmonograph is sturdy metal rack which does not move 
+The classic Harmonograph is sturdy metal rack which does not move
 while 3 pendula swing independently.
 Let us call the first pendulum X, because it only moves along the x-axis
 (left to right and back).
@@ -126,18 +126,18 @@ In the same fashion the second (Y) only moves up and down.
 When both are connected to a pen, we get a combination of both movements.
 As long as X and Y swing at the same speed, the result is a diagonal line.
 Because when X goes right Y goes up and vice versa.
-But if we start one pendulum at the center and the other 
+But if we start one pendulum at the center and the other
 at the upmost position we get a circle.
 In other words: we added an offset of 90 degrees to Y (or X).
-Our third pendulum Z moves the paper and does exactly 
+Our third pendulum Z moves the paper and does exactly
 the already described circular movement without rotating around its center.
-If both circular movements (of X, Y and Z) are concurrent - 
-the pen just stays at one point, If both are countercurrent - 
+If both circular movements (of X, Y and Z) are concurrent -
+the pen just stays at one point, If both are countercurrent -
 we get a circle. Interesting things start to happen, if we alter
 the speed of of X, Y and Z. Than famous harmonic pattern appear.
 And for even more complex drawings I added R, which is not really
 a pendulum, but an additional rotary movement of Z around its center.
-The pendula out of metal do of course fizzle out with time, 
+The pendula out of metal do of course fizzle out with time,
 which you can see in the drawing, in a spiraling movement toward the center.
 We emulate this with a damping factor.
 
@@ -164,7 +164,7 @@ These are divided into two tabs - roughly devided in form and decoration.
 
 =item 3
 
-The lower left side contains buttons which are a few commands, 
+The lower left side contains buttons which are a few commands,
 but most are in the main menu.
 
 =back
@@ -182,7 +182,7 @@ The content of the first tab are the settings that define the properties
 of the 4 pendula (X, Y, Z and R), which determine the shape of the drawing.
 X moves the pen left - right (on the x axis), Y moves up - down,
 Z does a circling movement, R is a rotation ( around Z's axis).
-Each pendulum has the same three rows of controls. 
+Each pendulum has the same three rows of controls.
 
 The first row contains from left to ritght an on/off switch.
 After that follows the pendulum's amplitude and damping.
@@ -190,12 +190,12 @@ Amplitudes define the size of the drawing and damping just means:
 the drawings will spiral toward the center with time (line length).
 
 The second row lets you dial in the speed (frequency).
-For instance 2 means that the pendulum swings back and fourt twice 
+For instance 2 means that the pendulum swings back and fourt twice
 as fast. The second combo control adds decimals for more complex drawings.
 
-The third row has switches to invert (1/x) frequency or direction 
+The third row has switches to invert (1/x) frequency or direction
 and can also change the starting position.
-2 = 180 degree offset, 4 = 90 degree (both can be combined). 
+2 = 180 degree offset, 4 = 90 degree (both can be combined).
 The last slider adds an additional fine tuned offset between 0 and 90 degree.
 
 
@@ -206,7 +206,7 @@ The last slider adds an additional fine tuned offset between 0 and 90 degree.
 </p>
 
 The second tab on the right side has knobs that set the properties of the pen.
-First how many rotations will be drawn. Secondly the distance between dots. 
+First how many rotations will be drawn. Secondly the distance between dots.
 Greater distances, together with color changes, help to clearify
 muddled up drawings. The third selector sets the dot size in pixel.
 
@@ -235,7 +235,7 @@ with the sart color and the lower with the end color.
 
 =head2 Commands
 
-In the lower left corner are two rows of command buttons. All other 
+In the lower left corner are two rows of command buttons. All other
 commands are in the menu.
 
 The upper row has only one button for making a full drawing. This
@@ -250,7 +250,7 @@ The second row has commands to quickly save many files.
 First push "Dir" to select the directory and then type directly into the
 secand text fiel the file base name - the index is found automatically.
 Every time you now press "Save" a file with the current image is saved
-under the path: dir + base name + index + ending (set in config). 
+under the path: dir + base name + index + ending (set in config).
 The index automatically autoincrements when changing the settings.
 Push "INI" next to it to also save the settings of the current state
 under same file name, but with the ending .ini.
@@ -263,7 +263,7 @@ Please not that each menu shows which key combination triggers the same
 command and while hovering over an menu item you see a short help text
 the left status bar field.
 
-The first menu is for loading and storing setting files with arbitrary 
+The first menu is for loading and storing setting files with arbitrary
 names. Also a sub menu allows a quick load of the recently used files.
 The first entry lets you reset the whole program to the starting state
 and the last is just to exit (safely with saving the configs).
@@ -285,7 +285,7 @@ Herbert Breunung (lichtkind@cpan.org)
 
 Copyright(c) 2022 by Herbert Breunung
 
-All rights reserved. 
+All rights reserved.
 This program is free software and can be used and distributed
 under the GPL 3 licence.
 
