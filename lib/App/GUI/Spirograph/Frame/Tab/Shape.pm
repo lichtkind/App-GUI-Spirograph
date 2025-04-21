@@ -17,8 +17,10 @@ sub new {
     $self->{'callback'} = sub {};
 
 
-    $self->{'lbl_const'} = Wx::StaticText->new($self, -1, 'C o n s t a n t :' );
-    $self->{'lbl_consta'} = Wx::StaticText->new($self, -1, 'A : ' );
+    $self->{'label'}{'outer_shape'} = Wx::StaticText->new($self, -1, ' E n c l o s u r e   O u t e r   P o l y g o n :' );
+    $self->{'label'}{'gear_shape'} = Wx::StaticText->new($self, -1, ' G e a r   S h a p e :' );
+    $self->{'label'}{'pen_pos'} = Wx::StaticText->new($self, -1, ' P e n   P o s i t i o n :' );
+  # $self->{'lbl_consta'} = Wx::StaticText->new($self, -1, 'A : ' );
 
   # $self->{'type'} = Wx::RadioBox->new( $self, -1, ' T y p e ', [-1,-1], [-1, -1], ['Mandelbrot', 'Julia', 'Any'] );
   # $self->{'coor_as_start'} = Wx::CheckBox->new( $self, -1, ' Start Value', [-1,-1], [-1, -1]);
@@ -54,6 +56,12 @@ sub new {
     $type_sizer->AddStretchSpacer( );
 
     my $sizer = Wx::BoxSizer->new(&Wx::wxVERTICAL);
+    $sizer->AddSpacer( 10 );
+    $sizer->Add( $self->{'label'}{'outer_shape'},  0, $item, $left_margin);
+    $sizer->Add( Wx::StaticLine->new( $self, -1), 0, $box, 10 );
+    $sizer->Add( $self->{'label'}{'gear_shape'},  0, $item, $left_margin);
+    $sizer->Add( Wx::StaticLine->new( $self, -1), 0, $box, 10 );
+    $sizer->Add( $self->{'label'}{'pen_pos'},  0, $item, $left_margin);
     $sizer->Add( $type_sizer,      0, $row, 10);
     $sizer->AddSpacer(  3 );
     $sizer->Add( Wx::StaticLine->new( $self, -1), 0, $box, 10 );
