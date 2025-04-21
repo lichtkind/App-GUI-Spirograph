@@ -1,7 +1,7 @@
 
 # slider widget with display of value and nudge buttons
 
-package App::GUI::Spirograph::Widget::SliderCombo;
+package App::GUI::Wx::Widget::Custom::SliderCombo;
 use v5.12;
 use warnings;
 use Wx;

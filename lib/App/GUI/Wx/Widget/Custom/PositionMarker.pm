@@ -2,7 +2,7 @@ use v5.12;
 use warnings;
 use Wx;
 
-package App::GUI::Spirograph::Widget::PositionMarker;
+package App::GUI::Wx::Widget::Custom::PositionMarker;
 use base qw/Wx::Panel/;
 
 sub new {

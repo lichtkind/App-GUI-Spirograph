@@ -8,11 +8,11 @@ use Wx;
 package App::GUI::Spirograph::Frame::Tab::Color;
 use base qw/Wx::Panel/;
 
-use App::GUI::Spirograph::Frame::Panel::ColorBrowser;
+use App::GUI::Wx::Widget::Custom::ColorBrowser;
+use App::GUI::Wx::Widget::Custom::ColorDisplay;
+use App::GUI::Wx::Widget::Custom::PositionMarker;
 use App::GUI::Spirograph::Frame::Panel::ColorPicker;
 use App::GUI::Spirograph::Frame::Panel::ColorSetPicker;
-use App::GUI::Spirograph::Widget::ColorDisplay;
-use App::GUI::Spirograph::Widget::PositionMarker;
 use Graphics::Toolkit::Color qw/color/;
 
 our $default_color_def = $App::GUI::Spirograph::Frame::Panel::ColorSetPicker::default_color;
@@ -32,9 +32,9 @@ sub new {
 
     $self->{'used_colors'}     = [ color('blue')->gradient( to => 'red', steps => $self->{'active_color_count'}) ];
     $self->{'used_colors'}[$_] = color( $default_color_def ) for $self->{'active_color_count'} .. $self->{'color_count'}-1;
-    $self->{'color_marker'}    = [ map { App::GUI::Spirograph::Widget::PositionMarker->new
+    $self->{'color_marker'}    = [ map { App::GUI::Wx::Widget::Custom::PositionMarker->new
                                            ($self, $self->{'display_size'}, 20, $_, '', $default_color_def) } 0 .. $self->{'color_count'}-1 ];
-    $self->{'color_display'}[$_] = App::GUI::Spirograph::Widget::ColorDisplay->new
+    $self->{'color_display'}[$_] = App::GUI::Wx::Widget::Custom::ColorDisplay->new
         ($self, $self->{'display_size'}-2, $self->{'display_size'},
          $_, $self->{'used_colors'}[$_]->values(as => 'hash')      ) for 0 .. $self->{'color_count'}-1;
     $self->{'color_marker'}[$_-1]->SetToolTip("color $_, to change (marked by arrow - crosses mark currently passive colors)") for 2 .. $self->{'color_count'};
@@ -65,10 +65,11 @@ sub new {
     $self->{'widget'}{'delta_L'}->SetToolTip("max. lightness deviation when computing complement colors ( -100 .. 100)");
 
 
-    $self->{'picker'}    = App::GUI::Spirograph::Frame::Panel::ColorPicker->new( $self, $config->get_value('color') );
     $self->{'setpicker'} = App::GUI::Spirograph::Frame::Panel::ColorSetPicker->new( $self, $config->get_value('color_set'), $self->{'color_count'});
+say $self->{'setpicker'}, $config;
+    $self->{'picker'}    = App::GUI::Spirograph::Frame::Panel::ColorPicker->new( $self, $config->get_value('color') );
 
-    $self->{'browser'}   = App::GUI::Spirograph::Frame::Panel::ColorBrowser->new( $self, 'selected', {red => 0, green => 0, blue => 0} );
+    $self->{'browser'}   = App::GUI::Wx::Widget::Custom::ColorBrowser->new( $self, 'selected', {red => 0, green => 0, blue => 0} );
     $self->{'browser'}->SetCallBack( sub { $self->set_current_color( $_[0] ) });
 
     Wx::Event::EVT_LEFT_DOWN( $self->{'color_display'}[$_], sub { $self->set_current_color_nr( $_[0]->get_nr ) }) for 0 .. $self->{'color_count'}-1;
@@ -137,7 +138,7 @@ sub new {
         $state_sizer->Add( $option_sizer[$nr],                 0, $all_attr, 6);
         #$state_sizer->AddSpacer( 1 );
     }
-    $state_sizer->Insert( 2, Wx::StaticLine->new( $self, -1,[-1,-1],[-1,-1], &Wx::wxLI_VERTICAL), 0, &Wx::wxGROW);
+    #$state_sizer->Insert( 2, Wx::StaticLine->new( $self, -1,[-1,-1],[-1,-1], &Wx::wxLI_VERTICAL), 0, &Wx::wxGROW);
     $state_sizer->Add( 0, 1, &Wx::wxEXPAND | &Wx::wxGROW);
 
     my $sizer = Wx::BoxSizer->new(&Wx::wxVERTICAL);

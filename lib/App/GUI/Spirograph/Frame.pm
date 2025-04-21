@@ -5,15 +5,14 @@ use Wx::AUI;
 
 package App::GUI::Spirograph::Frame;
 use base qw/Wx::Frame/;
+use App::GUI::Wx::Widget::Custom::Canvas;
+use App::GUI::Wx::Widget::Custom::ProgressBar;
 use App::GUI::Spirograph::Config;
 use App::GUI::Spirograph::Settings;
 use App::GUI::Spirograph::Dialog::About;
-use App::GUI::Spirograph::Frame::Tab::Constraints;
-use App::GUI::Spirograph::Frame::Tab::Polynomial;
-use App::GUI::Spirograph::Frame::Tab::Mapping;
+use App::GUI::Spirograph::Frame::Tab::Shape;
+use App::GUI::Spirograph::Frame::Tab::Visual;
 use App::GUI::Spirograph::Frame::Tab::Color;
-use App::GUI::Spirograph::Frame::Panel::Board;
-use App::GUI::Spirograph::Widget::ProgressBar;
 
 sub new {
     my ( $class, $parent, $title ) = @_;
@@ -28,26 +27,20 @@ sub new {
     Wx::InitAllImageHandlers();
 
     # create GUI parts
-    $self->{'tabs'}            = Wx::AuiNotebook->new($self, -1, [-1,-1], [-1,-1], &Wx::wxAUI_NB_TOP );
-    $self->{'tab'}{'constraint'}  = App::GUI::Spirograph::Frame::Tab::Constraints->new( $self->{'tabs'} );
-    $self->{'tab'}{'monomial'}    = App::GUI::Spirograph::Frame::Tab::Polynomial->new( $self->{'tabs'} );
-    $self->{'tab'}{'mapping'}     = App::GUI::Spirograph::Frame::Tab::Mapping->new( $self->{'tabs'} );
-    $self->{'tab'}{'color'}       = App::GUI::Spirograph::Frame::Tab::Color->new( $self->{'tabs'}, $self->{'config'}, 11 );
-    $self->{'tabs'}->AddPage( $self->{'tab'}{'constraint'}, 'Constraints');
-    $self->{'tabs'}->AddPage( $self->{'tab'}{'monomial'},   'Monomials');
-    $self->{'tabs'}->AddPage( $self->{'tab'}{'mapping'},    'Color Mapping');
-    $self->{'tabs'}->AddPage( $self->{'tab'}{'color'},      'Colors');
-    $self->{'tab'}{'constraint'}->connect_polynome_tab( $self->{'tab'}{'monomial'} );
-    $self->{'tab'}{'constraint'}->connect_mapping_tab( $self->{'tab'}{'mapping'} );
-    $self->{'tab'}{'mapping'}->connect_color_tab( $self->{'tab'}{'color'} );
+    $self->{'tabs'}          = Wx::AuiNotebook->new($self, -1, [-1,-1], [-1,-1], &Wx::wxAUI_NB_TOP );
+    $self->{'tab'}{'shape'}  = App::GUI::Spirograph::Frame::Tab::Shape->new( $self->{'tabs'} );
+    $self->{'tab'}{'visual'} = App::GUI::Spirograph::Frame::Tab::Visual->new( $self->{'tabs'} );
+    $self->{'tab'}{'color'}  = App::GUI::Spirograph::Frame::Tab::Color->new( $self->{'tabs'}, $self->{'config'}, 11 );
+    $self->{'tabs'}->AddPage( $self->{'tab'}{'shape'}, 'Shapes');
+    $self->{'tabs'}->AddPage( $self->{'tab'}{'visual'},'Visual Settings');
+    $self->{'tabs'}->AddPage( $self->{'tab'}{'color'}, 'Colors');
 
     $self->{'tab_names'} = [keys %{ $self->{'tab'} }];
     $self->{'tab'}{$_}->SetCallBack( sub { $self->sketch( ) } ) for @{$self->{'tab_names'}};
 
     $self->{'dialog'}{'about'}     = App::GUI::Spirograph::Dialog::About->new();
-    $self->{'progress_bar'}        = App::GUI::Spirograph::Widget::ProgressBar->new( $self, 430, 5, [20, 20, 110]);
-    $self->{'board'}               = App::GUI::Spirograph::Frame::Panel::Board->new( $self , 600, 600 );
-    $self->{'board'}->connect_constrains_tab( $self->{'tab'}{'constraint'} );
+    $self->{'progress_bar'}        = App::GUI::Wx::Widget::Custom::ProgressBar->new( $self, 430, 5, [20, 20, 110]);
+    $self->{'canvas'}              = App::GUI::Wx::Widget::Custom::Canvas->new( $self , 600, 600 );
     App::GUI::Spirograph::Compute::Image::add_progress_bar('pen', $self->{'progress_bar'});
     App::GUI::Spirograph::Compute::Image::add_progress_bar('preview', $self->{'tab'}{'mapping'}{'color_rainbow'});
     App::GUI::Spirograph::Compute::Image::add_progress_bar('background', $self->{'tab'}{'mapping'}{'background_rainbow'});
@@ -80,7 +73,7 @@ sub new {
         Wx::Event::EVT_MENU( $self, 12100 + $_, sub {
             my $size = 100 * ($_[1]->GetId - 12100);
             $self->{'config'}->set_value('image_size', $size);
-            $self->{'board'}->set_size( $size );
+            $self->{'canvas'}->set_size( $size );
         });
 
     }
@@ -137,17 +130,17 @@ sub new {
     $cmdi_sizer->Add( $self->{'btn'}{'draw'},      0, $all_attr, 5 );
     $cmdi_sizer->Add( 0, 0, &Wx::wxEXPAND | &Wx::wxGROW);
 
-    my $board_sizer = Wx::BoxSizer->new(&Wx::wxVERTICAL);
-    $board_sizer->Add( $self->{'board'}, 0, $all_attr,   5);
-    $board_sizer->Add( $cmdi_sizer,      0, $vert_attr, 20);
-    $board_sizer->Add( 0, 0, &Wx::wxEXPAND | &Wx::wxGROW);
+    my $canvas_sizer = Wx::BoxSizer->new(&Wx::wxVERTICAL);
+    $canvas_sizer->Add( $self->{'canvas'}, 0, $all_attr,   5);
+    $canvas_sizer->Add( $cmdi_sizer,      0, $vert_attr, 20);
+    $canvas_sizer->Add( 0, 0, &Wx::wxEXPAND | &Wx::wxGROW);
 
     my $setting_sizer = Wx::BoxSizer->new(&Wx::wxVERTICAL);
     $setting_sizer->Add( $self->{'tabs'}, 1, &Wx::wxEXPAND | &Wx::wxGROW);
     #$setting_sizer->Add( 0, 1, &Wx::wxEXPAND | &Wx::wxGROW);
 
     my $main_sizer = Wx::BoxSizer->new( &Wx::wxHORIZONTAL );
-    $main_sizer->Add( $board_sizer, 0, &Wx::wxEXPAND, 0);
+    $main_sizer->Add( $canvas_sizer, 0, &Wx::wxEXPAND, 0);
     $main_sizer->Add( $setting_sizer, 1, &Wx::wxEXPAND|&Wx::wxLEFT, 10);
 
     $self->SetSizer($main_sizer);
@@ -191,14 +184,14 @@ sub init {
 sub draw {
     my ($self) = @_;
     $self->SetStatusText( "drawing .....", 0 );
-    $self->{'board'}->draw( $self->get_settings );
+    $self->{'canvas'}->draw( $self->get_settings );
     $self->SetStatusText( "done complete drawing", 0 );
 }
 
 sub sketch {
     my ($self) = @_;
     $self->SetStatusText( "sketching a preview .....", 0 );
-    $self->{'board'}->sketch( $self->get_settings );
+    $self->{'canvas'}->sketch( $self->get_settings );
     $self->SetStatusText( "done sketching a preview", 0 );
     $self->show_settings_save(0);
 }
@@ -282,7 +275,6 @@ sub open_setting_file {
     my ($self, $file ) = @_;
     my $settings = App::GUI::Spirograph::Settings::load( $file );
     if (ref $settings) {
-        $settings->{'monomial'}{$_} = delete $settings->{'monomial_'.$_} for 1..4;
         $self->set_settings( $settings );
         $self->draw;
         my $dir = App::GUI::Spirograph::Settings::extract_dir( $file );
@@ -300,7 +292,6 @@ sub write_settings_file {
     my ($self, $file)  = @_;
     my $settings = $self->get_settings;
     my $monomial = delete $settings->{'monomial'};
-    $settings->{'monomial_'.$_} = $monomial->{$_} for 1..4;
     my $ret = App::GUI::Spirograph::Settings::write( $file, $settings );
     if ($ret){ $self->SetStatusText( $ret, 0 ) }
     else     {
@@ -313,7 +304,7 @@ sub write_settings_file {
 
 sub write_image {
     my ($self, $file)  = @_;
-    $self->{'board'}->save_file( $file );
+    $self->{'canvas'}->save_file( $file );
     $file = App::GUI::Spirograph::Settings::shrink_path( $file );
     $self->SetStatusText( "saved image under: $file", 0 );
     $self->show_settings_save(1);

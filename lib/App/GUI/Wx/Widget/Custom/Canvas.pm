@@ -1,7 +1,7 @@
 
 # drawing board
 
-package App::GUI::Spirograph::Frame::Panel::Board;
+package App::GUI::Wx::Widget::Custom::Canvas;
 use v5.12;
 use warnings;
 use Wx;

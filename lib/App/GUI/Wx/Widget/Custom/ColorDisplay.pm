@@ -1,7 +1,7 @@
 
 # square that displays a color
 
-package App::GUI::Spirograph::Widget::ColorDisplay;
+package App::GUI::Wx::Widget::Custom::ColorDisplay;
 use base qw/Wx::Panel/;
 use v5.12;
 use warnings;

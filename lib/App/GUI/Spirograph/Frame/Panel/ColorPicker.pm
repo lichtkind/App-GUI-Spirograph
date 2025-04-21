@@ -4,7 +4,7 @@ use Wx;
 
 package App::GUI::Spirograph::Frame::Panel::ColorPicker;
 use base qw/Wx::Panel/;
-use App::GUI::Spirograph::Widget::ColorDisplay;
+use App::GUI::Wx::Widget::Custom::ColorDisplay;
 
 sub new {
     my ( $class, $parent, $colors ) = @_;
@@ -23,7 +23,7 @@ sub new {
     $self->{'load'} = Wx::Button->new( $self, -1, 'Load',    [-1,-1], [$btnw, $btnh] );
     $self->{'del'}  = Wx::Button->new( $self, -1, 'Del',     [-1,-1], [$btnw, $btnh] );
     $self->{'save'} = Wx::Button->new( $self, -1, 'Save',    [-1,-1], [$btnw, $btnh] );
-    $self->{'display'} = App::GUI::Spirograph::Widget::ColorDisplay->new( $self, 25, 10, 0, $self->get_current_color );
+    $self->{'display'} = App::GUI::Wx::Widget::Custom::ColorDisplay->new( $self, 25, 10, 0, $self->get_current_color );
 
     $self->{'select'}->SetToolTip("select color in list directly");
     $self->{'<'}->SetToolTip("go to previous color in list");

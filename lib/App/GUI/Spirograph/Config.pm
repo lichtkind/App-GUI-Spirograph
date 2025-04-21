@@ -15,7 +15,7 @@ sub new {
     my ($pkg) = @_;
     my $data = -r $file_name
              ? load( $pkg, $file_name )
-             : $ App::GUI::Juliagraph::Config::Default::data;
+             : $ App::GUI::Spirograph::Config::Default::data;
     bless { path => $file_name, data => $data };
 }
 

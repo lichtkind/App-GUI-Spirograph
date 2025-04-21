@@ -1,18 +1,22 @@
+
+#
+
+package App::GUI::Spirograph::Frame::Panel::ColorSetPicker;
 use v5.12;
 use warnings;
 use Wx;
-
-package App::GUI::Spirograph::Frame::Panel::ColorSetPicker;
 use base qw/Wx::Panel/;
 
-use App::GUI::Spirograph::Widget::ColorDisplay;
+use App::GUI::Wx::Widget::Custom::ColorDisplay;
 use Graphics::Toolkit::Color qw/color/;
 
 our $default_color = {red => 225, green => 225, blue => 225};
 
 sub new {
     my ( $class, $parent, $color_sets, $max_display_count ) = @_;
-    return unless ref $parent and ref $color_sets eq 'HASH';
+say "==",$color_sets;
+    return unless ref $parent and ref $color_sets eq 'HASH' and defined $max_display_count;
+say "==";
 
     my $self = $class->SUPER::new( $parent, -1 );
 
@@ -30,7 +34,7 @@ sub new {
     $self->{'save'} = Wx::Button->new( $self, -1, 'Save',    [-1,-1], [$btnw, $btnh] );
     $self->{'new'}  = Wx::Button->new( $self, -1, 'New',     [-1,-1], [$btnw, $btnh] );
 
-    $self->{'display'}[$_] = App::GUI::Spirograph::Widget::ColorDisplay->new( $self, 15, 9, $_, $default_color ) for 0 .. $self->{'max_display_count'}-1;
+    $self->{'display'}[$_] = App::GUI::Wx::Widget::Custom::ColorDisplay->new( $self, 15, 9, $_, $default_color ) for 0 .. $self->{'max_display_count'}-1;
 
     $self->{'select'}->SetToolTip("select color set in list directly");
     $self->{'<'}->SetToolTip("go to previous color set name in list");

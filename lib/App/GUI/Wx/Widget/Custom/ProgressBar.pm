@@ -1,7 +1,7 @@
 
 # display of a color rainbow
 
-package App::GUI::Spirograph::Widget::ProgressBar;
+package App::GUI::Wx::Widget::Custom::ProgressBar;
 use v5.12;
 use warnings;
 use Wx;

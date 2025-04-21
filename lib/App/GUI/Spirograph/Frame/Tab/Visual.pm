@@ -1,15 +1,15 @@
 
 # visible tab with all visual settings
 
-package App::GUI::Spirograph::Frame::Tab::Mapping;
+package App::GUI::Spirograph::Frame::Tab::Visual;
 use v5.12;
 use warnings;
 use base qw/Wx::Panel/;
 use Graphics::Toolkit::Color qw/color/;
 use Wx;
-use App::GUI::Spirograph::Widget::SliderStep;
-use App::GUI::Spirograph::Widget::SliderCombo;
-use App::GUI::Spirograph::Widget::ProgressBar;
+use App::GUI::Wx::Widget::Custom::SliderStep;
+use App::GUI::Wx::Widget::Custom::SliderCombo;
+use App::GUI::Wx::Widget::Custom::ProgressBar;
 
 my $default_settings =  {
         custom_partition => 0, scale_steps => 20, scale_distro => 'square',
@@ -62,7 +62,7 @@ sub new {
     $self->{'custom_partition'} = Wx::CheckBox->new( $self, -1,  '', [-1,-1],[30, -1]);
     $self->{'user_colors'}      = Wx::CheckBox->new( $self, -1,  '', [-1,-1],[30, -1]);
     $self->{'use_subgradient'}  = Wx::CheckBox->new( $self, -1,  '', [-1,-1],[30, -1]);
-    $self->{'scale_steps'}  = App::GUI::Spirograph::Widget::SliderCombo->new( $self, 252, 'Steps :', "In how many parts the scale (0 .. max) will be partitioned, meaning: how many different colors/shades we use to paint the fractal", 2, 100, 20);
+    $self->{'scale_steps'}  = App::GUI::Wx::Widget::Custom::SliderCombo->new( $self, 252, 'Steps :', "In how many parts the scale (0 .. max) will be partitioned, meaning: how many different colors/shades we use to paint the fractal", 2, 100, 20);
     $self->{'scale_max'}    = Wx::TextCtrl->new( $self, -1,         0, [-1,-1], [60, -1], &Wx::wxTE_RIGHT | &Wx::wxTE_READONLY);
     $self->{'scale_distro'} = Wx::ComboBox->new( $self, -1, 'linear',  [-1,-1],[100, -1], [qw/log cubert sqrt linear square cube exp/]);
     $self->{'begin_color'}  = Wx::ComboBox->new( $self, -1, 'color 3', [-1,-1],[100, -1], [@color_names]);
@@ -70,8 +70,8 @@ sub new {
     $self->{'background_color'}   = Wx::ComboBox->new( $self, -1,'black', [-1,-1],[100,-1], [qw/black blue gray white/, 'color 1']);
     $self->{'gradient_dynamic'}   = Wx::ComboBox->new( $self, -1,      0, [-1,-1],[80, -1], [-5, -4, -3, -2.5, -2, -1.6, -1.3, -1, -0.8, -0.7, -0.6, -0.5, -0.4, -0.3, -0.2, -0.1, 0, 0.1, 0.2, 0.3, 0.4, 0.5, 0.6, 0.7, 0.8, 1, 1.3, 1.6, 2, 2.5, 3, 4, 5]);
     $self->{'gradient_space'}     = Wx::ComboBox->new( $self, -1,  'RGB', [-1,-1],[80, -1], [qw/RGB HSL/]);
-    $self->{'subgradient_steps'}  = App::GUI::Spirograph::Widget::SliderCombo->new( $self, 249, 'Steps :', "How man shades toes the subgradient have ?", 2, 100, 5, 1);
-    $self->{'subgradient_size'}   = App::GUI::Spirograph::Widget::SliderCombo->new( $self, 249, 'Size :', "Up to which value (Bailout/Stop Value + X) does the scale goes, from which subgradient is computed", 100, 5000, 500, 50);
+    $self->{'subgradient_steps'}  = App::GUI::Wx::Widget::Custom::SliderCombo->new( $self, 249, 'Steps :', "How man shades toes the subgradient have ?", 2, 100, 5, 1);
+    $self->{'subgradient_size'}   = App::GUI::Wx::Widget::Custom::SliderCombo->new( $self, 249, 'Size :', "Up to which value (Bailout/Stop Value + X) does the scale goes, from which subgradient is computed", 100, 5000, 500, 50);
     $self->{'subgradient_space'}  = Wx::ComboBox->new( $self, -1,  'RGB', [-1,-1],[80, -1], [qw/RGB HSL/]);
     $self->{'subgradient_dynamic'}= Wx::ComboBox->new($self, -1,     0, [-1,-1],[80, -1], [-5, -4, -3, -2.5, -2, -1.6, -1.3, -1, -0.8, -0.7, -0.6, -0.5, -0.4, -0.3, -0.2, -0.1, 0, 0.1, 0.2, 0.3, 0.4, 0.5, 0.6, 0.7, 0.8, 1, 1.3, 1.6, 2, 2.5, 3, 4, 5]);
     $self->{'subgradient_distro'} = Wx::ComboBox->new( $self, -1, 'linear',  [-1,-1],[100, -1], [qw/log cubert sqrt linear square cube exp/]);
@@ -86,8 +86,8 @@ sub new {
     $self->{'gradient_dynamic'}->SetToolTip('Skew direction of gradient (positive value = left)');
     $self->{'subgradient_dynamic'}->SetToolTip('Skew direction of gradient (positive value = left)');
     $self->{'subgradient_distro'}->SetToolTip('Relation between parts of subgradient size wise');
-    $self->{'color_rainbow'}      = App::GUI::Spirograph::Widget::ProgressBar->new( $self, 450, 30, [20, 20, 110]);
-    $self->{'background_rainbow'} = App::GUI::Spirograph::Widget::ProgressBar->new( $self, 450, 10, [20, 20, 110]);
+    $self->{'color_rainbow'}      = App::GUI::Wx::Widget::Custom::ProgressBar->new( $self, 450, 30, [20, 20, 110]);
+    $self->{'background_rainbow'} = App::GUI::Wx::Widget::Custom::ProgressBar->new( $self, 450, 10, [20, 20, 110]);
     $self->{'color_rainbow'}->SetToolTip('Color gradient display.');
     $self->{'background_rainbow'}->SetToolTip('Background color display.');
 

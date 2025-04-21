@@ -1,12 +1,12 @@
 #
 
-package App::GUI::Spirograph::Frame::Tab::Constraints;
+package App::GUI::Spirograph::Frame::Tab::Shape;
 use v5.12;
 use warnings;
 use Wx;
 use base qw/Wx::Panel/;
-use App::GUI::Spirograph::Widget::SliderStep;
-use App::GUI::Spirograph::Widget::SliderCombo;
+use App::GUI::Wx::Widget::Custom::SliderStep;
+use App::GUI::Wx::Widget::Custom::SliderCombo;
 
 my $default_settings = {
     type => 'Mandelbrot', coordinates_use => 'constant',
@@ -66,13 +66,13 @@ sub new {
     $self->{'reset_const_b'}  = Wx::Button->new( $self, -1, 0, [-1,-1], [ 30, -1] );
     $self->{'reset_start_a'}  = Wx::Button->new( $self, -1, 0, [-1,-1], [ 30, -1] );
     $self->{'reset_start_b'}  = Wx::Button->new( $self, -1, 0, [-1,-1], [ 30, -1] );
-    $self->{'button_zoom'} = App::GUI::Spirograph::Widget::SliderStep->new( $self, 150, 3, 0.3, 2, 2);
-    $self->{'button_x'}    = App::GUI::Spirograph::Widget::SliderStep->new( $self, 150, 3, 1  , 7, 3);
-    $self->{'button_y'}    = App::GUI::Spirograph::Widget::SliderStep->new( $self, 150, 3, 1  , 7, 3);
-    $self->{'button_ca'}   = App::GUI::Spirograph::Widget::SliderStep->new( $self, 150, 3, 0.3, 3, 3);
-    $self->{'button_cb'}   = App::GUI::Spirograph::Widget::SliderStep->new( $self, 150, 3, 0.3, 3, 3);
-    $self->{'button_sa'}   = App::GUI::Spirograph::Widget::SliderStep->new( $self, 150, 3, 0.3, 3, 3);
-    $self->{'button_sb'}   = App::GUI::Spirograph::Widget::SliderStep->new( $self, 150, 3, 0.3, 3, 3);
+    $self->{'button_zoom'} = App::GUI::Wx::Widget::Custom::SliderStep->new( $self, 150, 3, 0.3, 2, 2);
+    $self->{'button_x'}    = App::GUI::Wx::Widget::Custom::SliderStep->new( $self, 150, 3, 1  , 7, 3);
+    $self->{'button_y'}    = App::GUI::Wx::Widget::Custom::SliderStep->new( $self, 150, 3, 1  , 7, 3);
+    $self->{'button_ca'}   = App::GUI::Wx::Widget::Custom::SliderStep->new( $self, 150, 3, 0.3, 3, 3);
+    $self->{'button_cb'}   = App::GUI::Wx::Widget::Custom::SliderStep->new( $self, 150, 3, 0.3, 3, 3);
+    $self->{'button_sa'}   = App::GUI::Wx::Widget::Custom::SliderStep->new( $self, 150, 3, 0.3, 3, 3);
+    $self->{'button_sb'}   = App::GUI::Wx::Widget::Custom::SliderStep->new( $self, 150, 3, 0.3, 3, 3);
 
     $self->{'button_zoom'}->SetToolTip('zoom factor: the larger the more you zoom in');
     $self->{'button_zoom'}->SetCallBack(sub { $self->{'zoom'}->SetValue( $self->{'zoom'}->GetValue + shift ) });
@@ -84,9 +84,9 @@ sub new {
     $self->{'button_sb'}->SetCallBack(sub { $self->{'start_b'}->SetValue( $self->{'start_b'}->GetValue + shift ) });
 
     $self->{'reset_zoom'}->SetToolTip('Reset zoom level to one !');
-    $self->{'stop_nr'}     = App::GUI::Spirograph::Widget::SliderCombo->new( $self, 365, 'Count:', "Square root of maximal amount of iterations run on one pixel coordinates", 3, 120, 5, 0.25);
+    $self->{'stop_nr'}     = App::GUI::Wx::Widget::Custom::SliderCombo->new( $self, 365, 'Count:', "Square root of maximal amount of iterations run on one pixel coordinates", 3, 120, 5, 0.25);
     $self->{'stop_nr'}->SetCallBack( sub { $self->{'callback'}->() });
-    $self->{'stop_value'}  = App::GUI::Spirograph::Widget::SliderCombo->new( $self, 200, 'Value:', "Square root of value that triggeres bailout / iteration stop", 1, 120, 5, 0.25);
+    $self->{'stop_value'}  = App::GUI::Wx::Widget::Custom::SliderCombo->new( $self, 200, 'Value:', "Square root of value that triggeres bailout / iteration stop", 1, 120, 5, 0.25);
     $self->{'stop_value'}->SetCallBack( sub { $self->{'callback'}->() });
     $self->{'stop_metric'} = Wx::ComboBox->new( $self, -1, '|var|', [-1,-1],[95, -1], ['|var|', '|x|+|y|', '|x|', '|y|', '|x+y|', 'x+y', 'x-y', 'y-x', 'x*y', '|x*y|']);
     $self->{'stop_metric'}->SetToolTip('metric for computing stop value (|var| = sqrt(z.re**2 + z.i**2), x = z.real, y = z.im');
