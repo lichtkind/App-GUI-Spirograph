@@ -14,12 +14,9 @@ our $default_color = {red => 225, green => 225, blue => 225};
 
 sub new {
     my ( $class, $parent, $color_sets, $max_display_count ) = @_;
-say "==",$color_sets;
     return unless ref $parent and ref $color_sets eq 'HASH' and defined $max_display_count;
-say "==";
 
     my $self = $class->SUPER::new( $parent, -1 );
-
     $self->{'sets'} = { %$color_sets };
     $self->{'set_names'} = [ sort keys %{$self->{'sets'}} ];
     $self->{'set_index'} = 1;

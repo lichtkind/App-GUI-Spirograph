@@ -66,7 +66,6 @@ sub new {
 
 
     $self->{'setpicker'} = App::GUI::Spirograph::Frame::Panel::ColorSetPicker->new( $self, $config->get_value('color_set'), $self->{'color_count'});
-say $self->{'setpicker'}, $config;
     $self->{'picker'}    = App::GUI::Spirograph::Frame::Panel::ColorPicker->new( $self, $config->get_value('color') );
 
     $self->{'browser'}   = App::GUI::Wx::Widget::Custom::ColorBrowser->new( $self, 'selected', {red => 0, green => 0, blue => 0} );
