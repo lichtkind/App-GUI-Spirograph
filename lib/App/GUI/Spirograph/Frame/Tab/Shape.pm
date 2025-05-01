@@ -29,7 +29,7 @@ sub new {
   # $self->{'reset_zoom'}  = Wx::Button->new( $self, -1, 1, [-1,-1], [ 30, -1] );
   # $self->{'button_zoom'} = App::GUI::Wx::Widget::Custom::SliderStep->new( $self, 150, 3, 0.3, 2, 2);
   # $self->{'stop_nr'}     = App::GUI::Wx::Widget::Custom::SliderCombo->new( $self, 365, 'Count:', "Square root of maximal amount of iterations run on one pixel coordinates", 3, 120, 5, 0.25);
-  # $self->{'stop_metric'} = Wx::ComboBox->new( $self, -1, '|var|', [-1,-1],[95, -1], ['|var|', '|x|+|y|', '|x|', '|y|', '|x+y|', 'x+y', 'x-y', 'y-x', 'x*y', '|x*y|']);
+    $self->{'outer_poly_nr'} = Wx::ComboBox->new( $self, -1, '1', [-1,-1],[70, -1], [1..17]);
 
   # $self->{'button_zoom'}->SetToolTip('zoom factor: the larger the more you zoom in');
   # $self->{'button_zoom'}->SetCallBack(sub {  });
@@ -49,20 +49,20 @@ sub new {
     my $all  = $std | &Wx::wxALL;
     my $left_margin = 20;
 
-    my $type_sizer = Wx::BoxSizer->new(&Wx::wxHORIZONTAL);
-    $type_sizer->AddSpacer( $left_margin );
-    $type_sizer->AddSpacer( 40 );
-    # $type_sizer->Add( $coor_sizer,            0, $item, 30);
-    $type_sizer->AddStretchSpacer( );
+    my $outer_sizer = Wx::BoxSizer->new(&Wx::wxHORIZONTAL);
+    $outer_sizer->AddSpacer( $left_margin );
+    $outer_sizer->Add( $self->{'outer_poly_nr'},            0, $item, 30);
+    $outer_sizer->AddSpacer( 40 );
+    $outer_sizer->AddStretchSpacer( );
 
     my $sizer = Wx::BoxSizer->new(&Wx::wxVERTICAL);
     $sizer->AddSpacer( 10 );
     $sizer->Add( $self->{'label'}{'outer_shape'},  0, $item, $left_margin);
+    $sizer->Add( $outer_sizer,      0, $row, 10);
     $sizer->Add( Wx::StaticLine->new( $self, -1), 0, $box, 10 );
     $sizer->Add( $self->{'label'}{'gear_shape'},  0, $item, $left_margin);
     $sizer->Add( Wx::StaticLine->new( $self, -1), 0, $box, 10 );
     $sizer->Add( $self->{'label'}{'pen_pos'},  0, $item, $left_margin);
-    $sizer->Add( $type_sizer,      0, $row, 10);
     $sizer->AddSpacer(  3 );
     $sizer->Add( Wx::StaticLine->new( $self, -1), 0, $box, 10 );
     $sizer->AddSpacer( $left_margin );

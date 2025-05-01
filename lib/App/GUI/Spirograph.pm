@@ -276,6 +276,18 @@ submenu for setting the image size.
 
 The third menu has some dialogs with documentation and additional information.
 
+=head1 SEE ALSO
+
+L<App::GUI::Chaosgraph>
+
+L<App::GUI::Cellgraph>
+
+L<App::GUI::Juliagraph>
+
+L<App::GUI::Harmonograph>
+
+L<App::GUI::Sierpingraph>
+
 
 =head1 AUTHOR
 
@@ -283,7 +295,7 @@ Herbert Breunung (lichtkind@cpan.org)
 
 =head1 COPYRIGHT
 
-Copyright(c) 2022 by Herbert Breunung
+Copyright(c) 2025 by Herbert Breunung
 
 All rights reserved.
 This program is free software and can be used and distributed
